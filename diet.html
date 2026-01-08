@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Diet & Nutrition Planner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f8f7;
+      padding: 20px;
+    }
+
+    h2, h3 {
+      color: #2c7a7b;
+    }
+
+    .section {
+      background: #ffffff;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #2c7a7b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    button:hover {
+      background: #225e5d;
+    }
+
+    #result {
+      margin-top: 15px;
+      padding: 15px;
+      background: #e6fffa;
+      border-radius: 5px;
+    }
+
+    .day {
+      background: #ffffff;
+      padding: 10px;
+      margin-top: 10px;
+      border-left: 5px solid #2c7a7b;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>🥗 Custom Diet & Nutrition Planner</h2>
+
+<p id="goalDisplay"></p>
+
+<div class="section">
+  <h3>🍽 Select Breakfast Items</h3>
+  <input type="checkbox" class="food" value="Oats"> Oats<br>
+  <input type="checkbox" class="food" value="Idli"> Idli<br>
+  <input type="checkbox" class="food" value="Dosa"> Dosa<br>
+  <input type="checkbox" class="food" value="Fruit Bowl"> Fruit Bowl<br>
+</div>
+
+<div class="section">
+  <h3>🍛 Select Lunch Items</h3>
+  <input type="checkbox" class="food" value="Rice + Dal"> Rice + Dal<br>
+  <input type="checkbox" class="food" value="Chapati + Vegetable Curry"> Chapati + Vegetable Curry<br>
+  <input type="checkbox" class="food" value="Curd Rice"> Curd Rice<br>
+  <input type="checkbox" class="food" value="Paneer / Chicken"> Paneer / Chicken<br>
+</div>
+
+<div class="section">
+  <h3>☕ Select Evening / Night Items</h3>
+  <input type="checkbox" class="food" value="Sprouts"> Sprouts<br>
+  <input type="checkbox" class="food" value="Fruits"> Fruits<br>
+  <input type="checkbox" class="food" value="Nuts"> Nuts<br>
+  <input type="checkbox" class="food" value="Milk"> Milk<br>
+</div>
+
+<button onclick="generateDiet()">Generate Weekly Diet Plan</button>
+
+<div id="result"></div>
+
+<button onclick="goNext()">Next ➡</button>
+
+<script>
+  // Get goal from previous page
+  let goal = localStorage.getItem("goal") || "Healthy Life";
+  document.getElementById("goalDisplay").innerHTML =
+    "<b>Selected Goal:</b> " + goal;
+
+  function generateDiet() {
+    let selected = document.querySelectorAll(".food:checked");
+    let foods = [];
+
+    selected.forEach(item => foods.push(item.value));
+
+    if (foods.length === 0) {
+      alert("Please select at least one food item");
+      return;
+    }
+
+    let days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+
+    let output = "<h3>📅 Weekly Diet Plan</h3>";
+
+    days.forEach(day => {
+      output += `
+        <div class="day">
+          <b>${day}</b><br>
+          🌅 Morning: ${foods[Math.floor(Math.random()*foods.length)]}<br>
+          🌞 Afternoon: ${foods[Math.floor(Math.random()*foods.length)]}<br>
+          🌙 Night: ${foods[Math.floor(Math.random()*foods.length)]}
+        </div>
+      `;
+    });
+
+    if (goal === "Weight Loss") {
+      output += "<p><b>Tip:</b> Avoid fried food, eat small portions, drink more water.</p>";
+    } 
+    else if (goal === "Weight Gain") {
+      output += "<p><b>Tip:</b> Eat frequently, add milk, nuts, and protein-rich foods.</p>";
+    } 
+    else {
+      output += "<p><b>Tip:</b> Maintain balanced meals and daily physical activity.</p>";
+    }
+
+    document.getElementById("result").innerHTML = output;
+  }
+
+  function goNext() {
+    window.location.href = "progress.html";
+  }
+</script>
+
+</body>
+</html>
